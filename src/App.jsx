@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import { Button } from './components/ui/button';
+import AppLayout from './layout/AppLayout';
+import LandingPage from './pages/Landing';
 
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
 function App() {
     return (
         <>
-        <RouterProvider router={router}/>
+            <RouterProvider router={router} />
             <h1></h1>
         </>
     );
