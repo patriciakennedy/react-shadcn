@@ -9,6 +9,7 @@ import JobPage from './pages/JobPage';
 import MyJobs from './pages/MyJobs';
 import PostJobs from './pages/PostJobs';
 import SavedJobs from './pages/SavedJobs';
+import { ThemeProvider } from './components/theme-provider';
 
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
@@ -49,10 +50,9 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-        <>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={router} />
-            <h1></h1>
-        </>
+        </ThemeProvider>
     );
 }
 
