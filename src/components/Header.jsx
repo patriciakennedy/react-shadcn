@@ -14,14 +14,14 @@ const Header = () => {
                 <img src="/logo.png" className="h-20" alt="logo" />
             </Link>
 
-            {/* <button variant="outline">Login</button> */}
+            <button variant="outline">Login</button>
 
-            <SignedOut>
+            {/* <SignedOut>
                 <SignInButton />
             </SignedOut>
             <SignedIn>
                 <UserButton />
-            </SignedIn>
+            </SignedIn> */}
         </nav>
     );
 };
