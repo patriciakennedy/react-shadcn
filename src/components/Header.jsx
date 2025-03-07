@@ -1,9 +1,29 @@
-import React from 'react'
+import {
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    UserButton,
+} from '@clerk/clerk-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-  return (
-    <div>Header</div>
-  )
-}
+    return (
+        <nav className="py-4 flex justify-between items-center">
+            <Link>
+                <img src="/logo.png" className="h-20" alt="logo" />
+            </Link>
 
-export default Header
+            {/* <button variant="outline">Login</button> */}
+
+            <SignedOut>
+                <SignInButton />
+            </SignedOut>
+            <SignedIn>
+                <UserButton />
+            </SignedIn>
+        </nav>
+    );
+};
+
+export default Header;
