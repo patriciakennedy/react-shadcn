@@ -1,3 +1,7 @@
+import { Button } from '../components/ui/button';
+import { Link } from 'react-router-dom';
+// import { Button } from '../components/ui/button';
+
 const LandingPage = () => {
     return (
         <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
@@ -18,11 +22,17 @@ const LandingPage = () => {
                     candidate
                 </p>
             </section>
+            {/* buttons */}
             <div>
-                {/* buttons */}
-                {/* carousel */}
+                <Link to="/JobListing">
+                    <Button>Find Jobs</Button>
+                </Link>
+                <Link to="/PostJobs">
+                    <Button>Post Jobs</Button>
+                </Link>
             </div>
 
+            {/* carousel */}
             {/* banner */}
 
             <section>{/* cards */}</section>
