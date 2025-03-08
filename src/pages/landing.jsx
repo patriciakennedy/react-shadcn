@@ -33,12 +33,12 @@ const LandingPage = () => {
             {/* buttons */}
             <div className="flex gap-6 justify-center">
                 <Link to="/JobListing">
-                    <Button variant="blue" size="xl">
+                    <Button variant="gradient" size="xl">
                         Find Jobs
                     </Button>
                 </Link>
                 <Link to="/PostJobs">
-                    <Button variant="destructive" size="xl">
+                    <Button variant="electricBlue" size="xl">
                         Post Jobs
                     </Button>
                 </Link>
@@ -46,11 +46,6 @@ const LandingPage = () => {
 
             {/* carousel */}
             <Carousel
-                plugins={[
-                    Autoplay({
-                        delay: 2000,
-                    }),
-                ]}
                 plugins={[
                     Autoplay({
                         delay: 2000,

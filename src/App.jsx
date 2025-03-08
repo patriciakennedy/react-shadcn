@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
-import { Button } from './components/ui/button';
+// import { Button } from './components/ui/button';
 import AppLayout from './layout/AppLayout';
 import LandingPage from './pages/Landing';
 import OnBoarding from './pages/OnBoarding';
@@ -10,7 +10,7 @@ import MyJobs from './pages/MyJobs';
 import PostJobs from './pages/PostJobs';
 import SavedJobs from './pages/SavedJobs';
 import { ThemeProvider } from './components/theme-provider';
-
+import LandingRedesign from './pages/LandingRedesign';
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
     {
@@ -20,6 +20,7 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <LandingPage />,
             },
+
             {
                 path: '/OnBoarding',
                 element: <OnBoarding />,

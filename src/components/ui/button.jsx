@@ -20,8 +20,14 @@ const buttonVariants = cva(
                     'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
-                blue: 'bg-blue-500 text-white hover:bg-blue-600', // ✅ Fixed blue variant
-                red: 'bg-red-500 text-white hover:bg-red-600', // ✅ Added red variant
+                // blue: 'bg-blue-500 text-white hover:bg-blue-600', // ✅ Fixed blue variant
+                // red: 'bg-red-500 text-white hover:bg-red-600', // ✅ Added red variant
+                // ✅ NEON PURPLE GRADIENT BUTTON (with hover glow & pressed effect)
+                gradient:
+                    'bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white hover:opacity-90 transition-all duration-300 ease-in-out', // ✅ Added gradient variant
+                // ✅ ELECTRIC BLUE GRADIENT BUTTON (with hover glow & pressed effect)
+                electricBlue:
+                    'bg-gradient-to-r from-[#00D4FF] to-[#0066FF] text-white hover:opacity-90 transition-all duration-300 ease-in-out',
             },
             size: {
                 default: 'h-10 px-4 py-2',
