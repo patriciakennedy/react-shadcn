@@ -10,7 +10,11 @@ import MyJobs from './pages/MyJobs';
 import PostJobs from './pages/PostJobs';
 import SavedJobs from './pages/SavedJobs';
 import { ThemeProvider } from './components/theme-provider';
-import LandingRedesign from './pages/LandingRedesign';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Resources from './pages/Resources';
+import GetStarted from './pages/GetStarted';
+
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
     {
@@ -34,7 +38,7 @@ const router = createBrowserRouter([
                 element: <JobPage />,
             },
             {
-                path: '/MyJobs',
+                path: '/MyJobobs',
                 element: <MyJobs />,
             },
             {
@@ -44,6 +48,22 @@ const router = createBrowserRouter([
             {
                 path: '/SavedJobs',
                 element: <SavedJobs />,
+            },
+            {
+                path: '/about',
+                element: <About />,
+            },
+            {
+                path: '/contact',
+                element: <Contact />,
+            },
+            {
+                path: '/resources',
+                element: <Resources />,
+            },
+            {
+                path: '/get-started',
+                element: <GetStarted />,
             },
         ],
     },
