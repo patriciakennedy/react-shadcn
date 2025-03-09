@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 // import { Button } from '../components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import companies from '../data/companies.json';
+import { motion } from 'framer-motion';
 
 import {
     Carousel,
@@ -11,20 +12,30 @@ import {
 } from '../components/ui/carousel';
 
 const LandingPage = () => {
+    const text = 'Find Your Dream Job'.split(''); // Splits text into individual letters
+
     return (
         <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
             <section className="text-center ">
-                <h1 className="flex flex-col items-center justify-center gradient-title gradient-title font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tighter py-4">
+                {/* <h1 className="flex flex-col items-center justify-center gradient-title gradient-title font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tighter py-4">
                     Unlock Your Next{' '}
                     <span className="flex items-center gap-2 sm:gap-6">
                         Big Opportunity{' '}
-                        {/* <img
-                            src="/logo.png"
-                            alt="Hirrd logo"
-                            className="h-14 sm:h-24 lg:h-32"
-                        /> */}
                     </span>
-                </h1>
+                </h1> */}
+
+                <motion.h1
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, ease: 'easeOut' }}
+                    className="flex flex-col items-center justify-center gradient-title font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tighter py-4"
+                >
+                    Unlock Your Next{' '}
+                    <span className="flex items-center gap-2 sm:gap-6">
+                        Big Opportunity{' '}
+                    </span>
+                </motion.h1>
+
                 <p className="text-gray-300 sm:mt-4 text-xs sm:text-xl">
                     Browse top jobs or hire top talent
                 </p>
