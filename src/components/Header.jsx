@@ -43,18 +43,4 @@ const Header = () => {
 
 export default Header;
 
-//////////////original code
-// const Header = () => {
-//     return (
-//         <nav className="py-4 flex justify-between items-center">
-//             <Link>
-//                 <img src="/logo.png" className="h-20" alt="logo" />
-//             </Link>
 
-//             <button variant="outline">Login</button>
-
-//         </nav>
-//     );
-// };
-
-// export default Header;
