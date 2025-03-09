@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 // import React from 'react';
 import { Link } from 'react-router-dom';
@@ -57,7 +58,15 @@ const Header = () => {
 
             {/* Mobile Navigation Menu */}
             {isOpen && (
-                <div className="absolute top-16 left-0 w-full bg-black bg-opacity-90 p-6 flex flex-col gap-4 sm:hidden">
+                // <div className="absolute top-16 left-0 w-full bg-black bg-opacity-90 p-6 flex flex-col gap-4 sm:hidden">
+
+                <motion.div
+                    initial={{ y: -100, opacity: 0 }} // Start off-screen
+                    animate={{ y: 0, opacity: 1 }} // Slide down and fade in
+                    exit={{ y: -100, opacity: 0 }} // Slide up when closing
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="absolute top-16 left-0 w-full bg-black bg-opacity-90 p-6 flex flex-col gap-4 sm:hidden"
+                >
                     <Link
                         to="/about"
                         className="text-white hover:text-purple-400 transition"
@@ -89,36 +98,13 @@ const Header = () => {
                             Get Started
                         </Button>
                     </Link>
-                </div>
+                </motion.div>
             )}
         </nav>
     );
 };
 
 export default Header;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const Header = () => {
 //     return (
