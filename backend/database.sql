@@ -83,3 +83,41 @@ FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE;
 ALTER TABLE saved_jobs
 ADD CONSTRAINT fk_saved_jobs_candidate
 FOREIGN KEY (candidate_id) REFERENCES users(id) ON DELETE CASCADE;
+
+-- -----------------------------------------------------------------------------
+--Insert Sample Data into tables
+
+INSERT INTO users (first_name, last_name, email, password, role, created_at)
+VALUES 
+('John', 'Doe', 'john.doe@example.com', 'hashedpassword123', 'candidate', NOW()),
+('Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword456', 'recruiter', NOW());
+
+
+--Insert Sample Data into Companies
+INSERT INTO companies (name, logo_url, website, created_at)
+VALUES 
+('Tech Corp', 'https://example.com/logo1.png', 'https://techcorp.com', NOW()),
+('InnovateX', 'https://example.com/logo2.png', 'https://innovatex.com', NOW());
+
+
+
+
+--Insert Sample Data into jobs table
+INSERT INTO jobs (title, description, requirements, location, company_id, recruiter_id, is_open, created_at)
+VALUES 
+('Software Engineer', 'Develop and maintain web applications.', 'Proficient in JavaScript, React, and Node.js.', 'New York, NY', 1, 1, TRUE, NOW()),
+('Product Manager', 'Lead the product development team and define strategies.', 'Experience in Agile methodologies and product lifecycle.', 'San Francisco, CA', 2, 1, TRUE, NOW()),
+('Data Analyst', 'Analyze data to provide insights for decision-making.', 'Strong skills in SQL, Python, and visualization tools.', 'Austin, TX', 1, 2, FALSE, NOW());
+
+
+-- Insert sample data into applications table
+INSERT INTO applications (job_id, candidate_id, cover_letter, status, applied_at)
+VALUES (4, 2, 'I am excited about this Software Engineer role!', 'pending', NOW());
+
+
+-- Insert sample data into save_jobs
+INSERT INTO saved_jobs (job_id, candidate_id, saved_at) 
+VALUES 
+(4, 1, NOW()), 
+(5, 2, NOW()), 
+(6, 1, NOW());
