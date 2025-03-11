@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const pool = require('./pool'); // Import database connection
 
 // Initialize Express app
 const app = express();
@@ -11,8 +12,13 @@ app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Parse incoming JSON data
 
 // Default route (for testing)
-app.get('/', (req, res) => {
-    res.send('Server is running...');
+app.get('/api/users', (req, res) => {
+    pool.query('SELECT * FROM users')
+        .then((result) => res.json(result.rows)) // Send data as JSON
+        .catch((error) => {
+            console.error('Error fetching users:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        });
 });
 
 // Define PORT and start server
