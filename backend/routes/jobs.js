@@ -12,6 +12,26 @@ router.get('/', (req, res) => {
         });
 });
 
+// <-------------> GET >>> GET route for fetching a single job by ID ------------ ---------------------->
+
+// GET a single job by ID
+jobsRouter.get('/:id', (req, res) => {
+    const jobId = req.params.id;
+
+    pool.query('SELECT * FROM jobs WHERE id = $1', [jobId])
+        .then((result) => {
+            if (result.rows.length > 0) {
+                res.json(result.rows[0]); // Send job data if found
+            } else {
+                res.status(404).json({ error: 'Job not found' });
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching job:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        });
+});
+
 // <-------------> POST Route ---------------------------------->
 // Create a new job
 router.post('/', (req, res) => {
