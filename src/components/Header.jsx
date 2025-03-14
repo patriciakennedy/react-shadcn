@@ -13,8 +13,9 @@ const Header = () => {
             {/* Logo */}
             <Link>
                 <img
-                    src="/logo.png"
-                    className="h-16 sm:h-20"
+                    src="/dhlogo3.png"
+                    className="h-10 sm:h-15"
+                    // className="h-16 sm:h-20"
                     alt="DevHire Logo"
                 />
             </Link>
