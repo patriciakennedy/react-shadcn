@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import companies from '../data/companies.json';
 import { motion } from 'framer-motion';
-
+// import LoginForm from './LoginForm';
 import {
     Carousel,
     CarouselContent,
@@ -17,13 +17,6 @@ const LandingPage = () => {
     return (
         <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
             <section className="text-center ">
-                {/* <h1 className="flex flex-col items-center justify-center gradient-title gradient-title font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tighter py-4">
-                    Unlock Your Next{' '}
-                    <span className="flex items-center gap-2 sm:gap-6">
-                        Big Opportunity{' '}
-                    </span>
-                </h1> */}
-
                 <motion.h1
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -54,6 +47,8 @@ const LandingPage = () => {
                 </Link>
             </div>
 
+            {/* form component */}
+            {/* <LoginForm /> */}
             {/* carousel */}
             <Carousel
                 plugins={[
