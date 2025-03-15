@@ -1,10 +1,9 @@
 import { Button } from '../components/ui/button';
 import { Link } from 'react-router-dom';
-// import { Button } from '../components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import companies from '../data/companies.json';
 import { motion } from 'framer-motion';
-// import LoginForm from './LoginForm';
+
 import {
     Carousel,
     CarouselContent,
@@ -15,7 +14,7 @@ const LandingPage = () => {
     const text = 'Find Your Dream Job'.split(''); // Splits text into individual letters
 
     return (
-        <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
+        <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20 bg-[#04091A]">
             <section className="text-center ">
                 <motion.h1
                     initial={{ opacity: 0, scale: 0.8 }}
