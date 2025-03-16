@@ -24,7 +24,7 @@
         "dotenv": "^16.4.7",
         "embla-carousel-autoplay": "^8.5.2",
         "embla-carousel-react": "^8.5.2",
-        "framer-motion": "^12.4.10",
+        "framer-motion": "^12.5.0",
         "install": "^0.13.0",
         "lucide-react": "^0.477.0",
         "npm": "^11.2.0",
