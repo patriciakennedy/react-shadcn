@@ -1,345 +1,128 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, User, Mail, Lock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Lock, User } from 'lucide-react';
 
 const LoginForm = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+
+    // Handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isLogin) {
+            console.log('Logging in with:', { email, password });
+        } else {
+            console.log('Signing up with:', { name, email, password });
+        }
+    };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#04091A]">
-            {/* Toggle Switch */}
-            <div className="flex items-center gap-4 mb-12">
-                <button
-                    onClick={() => setIsLogin(true)}
-                    className={`text-lg font-semibold ${
-                        isLogin ? 'text-purple-400' : 'text-gray-500'
-                    }`}
-                >
+        <div className="flex flex-col items-center justify-center min-h-screen bg-[#04091A] px-6 mt-[-80px]">
+            {/* Toggle Button */}
+            <div className="flex items-center mb-8 space-x-4 text-gray-300">
+                <span className={`text-lg ${isLogin ? 'text-purple-400' : ''}`}>
                     LOG IN
-                </button>
+                </span>
                 <div
-                    className="relative w-20 h-8 bg-red-500 rounded-full flex items-center cursor-pointer transition"
+                    className="relative w-16 h-8 flex items-center bg-gradient-to-r from-[#00AEEF] to-[#007BFF] rounded-full cursor-pointer"
                     onClick={() => setIsLogin(!isLogin)}
                 >
                     <motion.div
-                        initial={false}
-                        animate={{ x: isLogin ? -32 : 32 }} // Adjust position for smooth transition
-                        transition={{
-                            type: 'spring',
-                            stiffness: 300,
-                            damping: 20,
-                        }}
-                        className="absolute w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md"
+                        className="w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md"
+                        animate={{ x: isLogin ? 2 : 42 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
                     >
-                        {isLogin ? (
-                            <ArrowLeft size={14} className="text-red-500" />
-                        ) : (
-                            <ArrowRight size={14} className="text-red-500" />
-                        )}
+                        {isLogin ? '←' : '→'}
                     </motion.div>
                 </div>
-                <button
-                    onClick={() => setIsLogin(false)}
-                    className={`text-lg font-semibold ${
-                        !isLogin ? 'text-purple-400' : 'text-gray-500'
-                    }`}
+                <span
+                    className={`text-lg ${!isLogin ? 'text-purple-400' : ''}`}
                 >
                     SIGN UP
-                </button>
+                </span>
             </div>
 
-            {/* Flip Card Animation */}
-            <div className="relative w-[450px] h-[500px]">
-                <motion.div
-                    className="absolute w-full h-full"
-                    initial={false}
-                    animate={{ rotateY: isLogin ? 0 : 180 }}
-                    transition={{ duration: 0.6 }}
-                    style={{ transformStyle: 'preserve-3d' }}
-                >
-                    {/* Login Form */}
-                    <div
-                        className="absolute w-full h-full bg-gray-900 p-10 rounded-lg shadow-lg"
-                        style={{ backfaceVisibility: 'hidden' }}
+            {/* Animated Form Card */}
+            <div className="relative w-full max-w-md">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={isLogin ? 'login' : 'signup'}
+                        initial={{ opacity: 0, rotateY: 90 }}
+                        animate={{ opacity: 1, rotateY: 0 }}
+                        exit={{ opacity: 0, rotateY: -90 }}
+                        transition={{ duration: 0.6 }}
+                        className="bg-gray-900 text-white p-10 rounded-lg shadow-xl w-full"
                     >
-                        <h2 className="text-center text-2xl font-bold text-white mb-3">
-                            Login
+                        <h2 className="text-2xl font-bold text-center mb-4">
+                            {isLogin ? 'Login' : 'Sign Up'}
                         </h2>
-                        <p className="text-gray-400 text-center text-sm mb-6">
-                            Fill in your details below to access your account.
-                        </p>
-                        <form className="space-y-5">
-                            <div className="relative">
-                                <input
-                                    type="email"
-                                    placeholder="Your Email"
-                                    className="w-full p-4 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12"
-                                />
-                                <Mail
-                                    size={22}
-                                    className="absolute left-4 top-4 text-red-500"
-                                />
-                            </div>
-                            <div className="relative">
-                                <input
-                                    type="password"
-                                    placeholder="Your Password"
-                                    className="w-full p-4 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12"
-                                />
-                                <Lock
-                                    size={22}
-                                    className="absolute left-4 top-4 text-red-500"
-                                />
-                            </div>
-                            <button className="w-full p-4 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition">
-                                Login
-                            </button>
-                        </form>
-                    </div>
 
-                    {/* Sign Up Form (Flipped) */}
-                    <div
-                        className="absolute w-full h-full bg-gray-900 p-10 rounded-lg shadow-lg"
-                        style={{
-                            backfaceVisibility: 'hidden',
-                            transform: 'rotateY(180deg)',
-                        }}
-                    >
-                        <h2 className="text-center text-2xl font-bold text-white mb-6">
-                            Sign Up
-                        </h2>
-                        <form className="space-y-5">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Your Name"
-                                    className="w-full p-4 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12"
-                                />
-                                <User
-                                    size={22}
-                                    className="absolute left-4 top-4 text-red-500"
-                                />
-                            </div>
-                            <div className="relative">
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {!isLogin && (
+                                <div className="flex items-center bg-gray-800 p-3 rounded-lg">
+                                    <User className="text-purple-400 mr-2" />
+                                    <input
+                                        type="text"
+                                        placeholder="Your Name"
+                                        value={name}
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                        className="bg-transparent outline-none text-white w-full"
+                                    />
+                                </div>
+                            )}
+
+                            <div className="flex items-center bg-gray-800 p-3 rounded-lg">
+                                <Mail className="text-purple-400 mr-2" />
                                 <input
                                     type="email"
                                     placeholder="Your Email"
-                                    className="w-full p-4 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12"
-                                />
-                                <Mail
-                                    size={22}
-                                    className="absolute left-4 top-4 text-red-500"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="bg-transparent outline-none text-white w-full"
                                 />
                             </div>
-                            <div className="relative">
+
+                            <div className="flex items-center bg-gray-800 p-3 rounded-lg">
+                                <Lock className="text-purple-400 mr-2" />
                                 <input
                                     type="password"
                                     placeholder="Your Password"
-                                    className="w-full p-4 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12"
-                                />
-                                <Lock
-                                    size={22}
-                                    className="absolute left-4 top-4 text-red-500"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    className="bg-transparent outline-none text-white w-full"
                                 />
                             </div>
-                            <button className="w-full p-4 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition">
-                                Sign Up
+
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white py-3 rounded-lg font-semibold mt-4 hover:opacity-90 transition-all"
+                            >
+                                {isLogin ? 'Login' : 'Sign Up'}
                             </button>
+
+                            {/* Forgot Password - Only for Login */}
+                            {isLogin && (
+                                <p className="text-center text-sm text-gray-400 mt-3">
+                                    <a
+                                        href="#"
+                                        className="text-purple-400 hover:underline"
+                                    >
+                                        Forgot your password?
+                                    </a>
+                                </p>
+                            )}
                         </form>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </div>
     );
 };
 
 export default LoginForm;
-
-//----------------------------------------------------------------------------3
-// import React, { useState } from 'react';
-
-// const LoginForm = () => {
-//     const [isLogin, setIsLogin] = useState(true);
-//     const [email, setEmail] = useState('');
-//     const [password, setPassword] = useState('');
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         console.log('Email: ', email);
-//         console.log('Password: ', password);
-//     };
-
-//     return (
-//         <div className="flex justify-center items-center min-h-screen bg-[#04091A]">
-//             <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-96">
-//                 {/* Toggle Switch */}
-//                 <div className="flex justify-center mb-6">
-//                     <button
-//                         onClick={() => setIsLogin(true)}
-//                         className={`px-4 py-2 text-white font-semibold ${
-//                             isLogin
-//                                 ? 'text-purple-400 border-b-2 border-purple-400'
-//                                 : 'text-gray-500'
-//                         }`}
-//                     >
-//                         Login
-//                     </button>
-//                     <button
-//                         onClick={() => setIsLogin(false)}
-//                         className={`px-4 py-2 text-white font-semibold ${
-//                             !isLogin
-//                                 ? 'text-purple-400 border-b-2 border-purple-400'
-//                                 : 'text-gray-500'
-//                         }`}
-//                     >
-//                         Sign Up
-//                     </button>
-//                 </div>
-
-//                 <h2 className="text-center text-2xl font-bold text-white mb-6">
-//                     {isLogin ? 'Login' : 'Sign Up'}
-//                 </h2>
-
-//                 <form className="space-y-4" onSubmit={handleSubmit}>
-//                     {!isLogin && (
-//                         <div>
-//                             <label className="text-white">Name:</label>
-//                             <input
-//                                 type="text"
-//                                 placeholder="Enter your name"
-//                                 className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-//                             />
-//                         </div>
-//                     )}
-
-//                     <div>
-//                         <label className="text-white">Email:</label>
-//                         <input
-//                             type="email"
-//                             placeholder="Enter your email"
-//                             value={email}
-//                             onChange={(e) => setEmail(e.target.value)}
-//                             className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-//                         />
-//                     </div>
-//                     <div>
-//                         <label className="text-white">Password:</label>
-//                         <input
-//                             type="password"
-//                             placeholder="Enter your password"
-//                             value={password}
-//                             onChange={(e) => setPassword(e.target.value)}
-//                             className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-//                         />
-//                     </div>
-
-//                     <button
-//                         type="submit"
-//                         className="w-full p-3 bg-purple-500 text-white font-bold rounded hover:bg-purple-600 transition"
-//                     >
-//                         {isLogin ? 'Login' : 'Sign Up'}
-//                     </button>
-//                 </form>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default LoginForm;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////2
-// // import React, { useState } from 'react';
-
-// const LoginForm = () => {
-//     const [email, setEmail] = useState('');
-//     const [password, setPassword] = useState('');
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         console.log('Email: ', email);
-//         console.log('Password: ', password);
-//     };
-
-//     return (
-//         <div className="flex justify-center items-center min-h-screen bg-[#04091A]">
-//             <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-96">
-//                 <h2 className="text-center text-2xl font-bold text-white mb-6">
-//                     Login
-//                 </h2>
-
-//                 <form className="space-y-4" onSubmit={handleSubmit}>
-//                     <div>
-//                         <label className="text-white">Email:</label>
-//                         <input
-//                             type="email"
-//                             placeholder="Enter your email"
-//                             value={email}
-//                             onChange={(e) => setEmail(e.target.value)}
-//                             className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-//                         />
-//                     </div>
-//                     <div>
-//                         <label className="text-white">Password:</label>
-//                         <input
-//                             type="password"
-//                             placeholder="Enter your password"
-//                             value={password}
-//                             onChange={(e) => setPassword(e.target.value)}
-//                             className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-//                         />
-//                     </div>
-//                     <button
-//                         type="submit"
-//                         className="w-full p-3 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition"
-//                     >
-//                         Login
-//                     </button>
-//                 </form>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default LoginForm;
-///////////////////////////////////////////////////////////////////////////////////////////1
-// import React, { useState } from 'react';
-
-// const LoginForm = () => {
-//     const [email, setEmail] = useState('');
-//     const [password, setPassword] = useState('');
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         console.log('Email: ', email);
-//         console.log('Password: ', password);
-//     };
-
-//     return (
-//         <div>
-//             <h2>Login</h2>
-//             <form action="" onSubmit={handleSubmit}>
-//                 <div>
-//                     <label htmlFor="">Email:</label>
-//                     <input
-//                         type="email"
-//                         placeholder="Enter your email"
-//                         value={email}
-//                         onChange={(e) => setEmail(e.target.value)}
-//                     />
-//                 </div>
-//                 <div>
-//                     <label>Password:</label>
-//                     <input
-//                         type="password"
-//                         placeholder="Enter your password"
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                     />
-//                 </div>
-//                 <button type="submit">Login</button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default LoginForm;
