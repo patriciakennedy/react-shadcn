@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/pool');
 
-// GET /api/jobs - Fetch all jobs
+// >>>>>>>>>>>>>>>>>>>> GET /api/jobs - Fetch all jobs <<<<<<<<<<<<<<<<<<<< //
 router.get('/', (req, res) => {
     pool.query('SELECT * FROM jobs')
         .then((result) => res.json(result.rows))
@@ -12,19 +12,16 @@ router.get('/', (req, res) => {
         });
 });
 
-// <-------------> GET >>> GET route for fetching a single job by ID ------------ ---------------------->
-
-// GET a single job by ID
-jobsRouter.get('/:id', (req, res) => {
-    const jobId = req.params.id;
+// >>>>>>>>>>>>>>>>>>>> GET /api/jobs/:id - Fetch job by ID <<<<<<<<<<<<<<<<<<<< //
+router.get('/:id', (req, res) => {
+    const jobId = req.params.id; // Extract the job ID from the request
 
     pool.query('SELECT * FROM jobs WHERE id = $1', [jobId])
         .then((result) => {
-            if (result.rows.length > 0) {
-                res.json(result.rows[0]); // Send job data if found
-            } else {
-                res.status(404).json({ error: 'Job not found' });
+            if (result.rows.length === 0) {
+                return res.status(404).json({ message: 'Job not found' });
             }
+            res.json(result.rows[0]); // Return the job details
         })
         .catch((error) => {
             console.error('Error fetching job:', error);
@@ -32,7 +29,8 @@ jobsRouter.get('/:id', (req, res) => {
         });
 });
 
-// <-------------> POST Route ---------------------------------->
+// >>>>>>>>>>>>>>>>>>>>>> POST ROUTE - Create a new jobb<<<<<<<<<<<<<<<<<<<<<<<<< //
+
 // Create a new job
 router.post('/', (req, res) => {
     const {
