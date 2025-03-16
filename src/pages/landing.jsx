@@ -11,8 +11,7 @@ import {
 } from '../components/ui/carousel';
 
 const LandingPage = () => {
-    const text = 'Find Your Dream Job'.split(''); // Splits text into individual letters
-
+    const text = 'Find Your Dream Job'.split('');
     return (
         <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20 bg-[#04091A]">
             <section className="text-center ">
