@@ -74,4 +74,62 @@ router.post('/', (req, res) => {
         });
 });
 
+// >>>>>>>>>>>>>>>>>>>> DELETE /api/jobs/:id - Remove a job listing <<<<<<<<<<<<<<<<<<<< //
+router.delete('/:id', (req, res) => {
+    const jobId = req.params.id; // Extract the job ID from the request
+
+    pool.query('DELETE FROM jobs WHERE id = $1 RETURNING *', [jobId])
+        .then((result) => {
+            if (result.rows.length === 0) {
+                return res.status(404).json({ message: 'Job not found' });
+            }
+            res.json({
+                message: 'Job deleted successfully',
+                deletedJob: result.rows[0],
+            });
+        })
+        .catch((error) => {
+            console.error('Error deleting job:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        });
+});
+
+// >>>>>>>>>>>>>>>>>>>> PUT /api/jobs/:id - Update a job listing <<<<<<<<<<<<<<<<<<<< //
+router.put('/:id', (req, res) => {
+    const jobId = req.params.id; // Get the job ID from the URL
+    const { title, description, requirements, location, is_open } = req.body; // Get updated fields
+
+    // Check if at least one field is provided
+    if (
+        !title &&
+        !description &&
+        !requirements &&
+        !location &&
+        is_open === undefined
+    ) {
+        return res
+            .status(400)
+            .json({ error: 'At least one field is required to update' });
+    }
+
+    // Update job in the database
+    pool.query(
+        'UPDATE jobs SET title = $1, description = $2, requirements = $3, location = $4, is_open = $5 WHERE id = $6 RETURNING *',
+        [title, description, requirements, location, is_open, jobId]
+    )
+        .then((result) => {
+            if (result.rows.length === 0) {
+                return res.status(404).json({ message: 'Job not found' });
+            }
+            res.json({
+                message: 'Job updated successfully',
+                updatedJob: result.rows[0],
+            });
+        })
+        .catch((error) => {
+            console.error('Error updating job:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        });
+});
+
 module.exports = router;
