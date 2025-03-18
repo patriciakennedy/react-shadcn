@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MapPin, Building } from 'lucide-react';
+import { Heart, MapPin, Building } from 'lucide-react'; // Icons
 
-const JobCard = ({ job = {} }) => {
-    const [saved, setSaved] = useState(false);
-
-    // Prevent component from rendering if job is undefined
-    if (!job || Object.keys(job).length === 0) {
-        return null;
-    }
+const JobCard = ({ job }) => {
+    const [saved, setSaved] = useState(false); // State to track saved jobs
 
     // Toggle Save Job
     const handleSaveJob = () => {
@@ -17,19 +12,29 @@ const JobCard = ({ job = {} }) => {
 
     return (
         <div className="bg-gray-900 text-white rounded-lg shadow-md p-6 flex flex-col gap-3 transition-all hover:shadow-lg">
-            {/* Job Title */}
-            <h2 className="text-xl font-semibold">
-                {job.title || 'No title available'}
-            </h2>
-
-            {/* Company Name & Location */}
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-                <Building size={18} />
-                <span>{job.company_name || 'Unknown Company'}</span>
+            {/* Company Logo */}
+            <div className="flex items-center gap-3">
+                {job.companyLogo ? (
+                    <img
+                        src={job.companyLogo}
+                        alt="Company Logo"
+                        className="w-12 h-12 rounded-full object-cover"
+                    />
+                ) : (
+                    <Building size={40} className="text-gray-500" />
+                )}
+                <div>
+                    {/* Job Title */}
+                    <h2 className="text-xl font-semibold">{job.title}</h2>
+                    {/* Company Name */}
+                    <span className="text-gray-400 text-sm">{job.company}</span>
+                </div>
             </div>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
+
+            {/* Location */}
+            <div className="flex items-center gap-2 text-blue-400 text-sm">
                 <MapPin size={18} />
-                <span>{job.location || 'Location not specified'}</span>
+                <span>{job.location}</span>
             </div>
 
             {/* Buttons */}

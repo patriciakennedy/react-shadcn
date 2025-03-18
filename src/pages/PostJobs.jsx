@@ -11,9 +11,12 @@ const PostJobs = () => {
         description: '',
         requirements: '',
         applyLink: '',
+        companyLogo: null, // New field for company logo
     });
 
-    // Function to handle input changes
+    const [uploading, setUploading] = useState(false); // Track file upload status
+
+    // Function to handle text input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -21,11 +24,50 @@ const PostJobs = () => {
         });
     };
 
+    // Function to handle file input change (logo upload)
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]; // Get the selected file
+        setFormData({ ...formData, companyLogo: file }); // Store in state
+    };
+
     // Function to handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevents page refresh
-        console.log('Job Posted:', formData);
-        // Step 2: Send data to backend (to be implemented later)
+        e.preventDefault(); // Prevent page refresh
+        setUploading(true);
+
+        // Create a FormData object (for file uploads)
+        const jobData = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            jobData.append(key, value);
+        });
+
+        // Send data to the backend
+        fetch('http://localhost:5000/api/jobs', {
+            method: 'POST',
+            body: jobData, // FormData object (allows file upload)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setUploading(false);
+                console.log('Job Posted:', data);
+                alert('Job posted successfully!'); // Success feedback
+                setFormData({
+                    title: '',
+                    company: '',
+                    location: '',
+                    jobType: '',
+                    salary: '',
+                    description: '',
+                    requirements: '',
+                    applyLink: '',
+                    companyLogo: null,
+                }); // Reset form
+            })
+            .catch((error) => {
+                setUploading(false);
+                console.error('Error posting job:', error);
+                alert('Error posting job. Please try again.');
+            });
     };
 
     return (
@@ -47,17 +89,15 @@ const PostJobs = () => {
                     />
 
                     {/* Company Name */}
-                    <select
+                    <input
+                        type="text"
                         name="company"
+                        placeholder="Company Name"
                         value={formData.company}
                         onChange={handleChange}
                         className="w-full p-3 rounded-md text-black"
                         required
-                    >
-                        <option value="">Select Company</option>
-                        <option value="Company A">Company A</option>
-                        <option value="Company B">Company B</option>
-                    </select>
+                    />
 
                     {/* Location */}
                     <input
@@ -128,12 +168,22 @@ const PostJobs = () => {
                         required
                     />
 
+                    {/* Company Logo Upload */}
+                    <input
+                        type="file"
+                        name="companyLogo"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="w-full p-3 rounded-md text-black bg-white"
+                    />
+
                     {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full p-3 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded-md"
+                        disabled={uploading}
                     >
-                        Post Job
+                        {uploading ? 'Uploading...' : 'Post Job'}
                     </button>
                 </form>
             </div>
