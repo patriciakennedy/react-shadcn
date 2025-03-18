@@ -6,9 +6,10 @@ import {
     CardDescription,
     CardContent,
     CardFooter,
-} from '../components/ui/card';
+} from './card'; // Fix the path to correctly reference card.jsx
+
 import { Briefcase, MapPin, Building } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { Button } from './button'; // Fix this if button.jsx is also in ui folder
 import { Link } from 'react-router-dom';
 
 const JobCard = ({ job }) => {
