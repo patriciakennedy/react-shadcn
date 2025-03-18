@@ -12,6 +12,7 @@ const pool = require('./config/pool');
 const userRoutes = require('./routes/users');
 const jobRoutes = require('./routes/jobs');
 const authRoutes = require('./routes/auth'); // Google OAuth routes
+const stateRoutes = require('./routes/states');
 
 // Import Passport configuration
 require('./config/passport');
@@ -22,11 +23,10 @@ const app = express();
 // Middleware Setup
 app.use(
     cors({
-        origin: 'http://localhost:5173', // Adjust if frontend URL is different
-        credentials: true, // Allow sending cookies with requests
+        origin: 'http://localhost:5173', // Adjust frontend URL if needed
+        credentials: true,
     })
 );
-
 app.use(express.json());
 
 // Session Middleware (Required for Passport & Authentication)
@@ -43,13 +43,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// **Routes (Group them together)**
 app.use('/api/users', userRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/states', stateRoutes);
 app.use('/auth', authRoutes); // Google OAuth authentication routes
 
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
