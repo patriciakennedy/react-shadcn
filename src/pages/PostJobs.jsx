@@ -165,6 +165,7 @@ const PostJobs = () => {
                         onChange={handleChange}
                         className="w-full p-3 rounded-md text-black"
                         min="0"
+                        step="1000"
                     />
 
                     {/* Job Description */}
