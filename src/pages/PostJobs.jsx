@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const PostJobs = () => {
     // State for form fields
@@ -11,10 +11,18 @@ const PostJobs = () => {
         description: '',
         requirements: '',
         applyLink: '',
-        companyLogo: null, // New field for company logo
+        logo: null, // File input for company logo
     });
 
-    const [uploading, setUploading] = useState(false); // Track file upload status
+    const [states, setStates] = useState([]); // Store states from API
+
+    // Fetch states from API
+    useEffect(() => {
+        fetch('http://localhost:5000/api/states') // Adjust API endpoint if needed
+            .then((response) => response.json())
+            .then((data) => setStates(data)) // Store states in state
+            .catch((error) => console.error('Error fetching states:', error));
+    }, []);
 
     // Function to handle text input changes
     const handleChange = (e) => {
@@ -24,50 +32,34 @@ const PostJobs = () => {
         });
     };
 
-    // Function to handle file input change (logo upload)
+    // Function to handle file input change
     const handleFileChange = (e) => {
-        const file = e.target.files[0]; // Get the selected file
-        setFormData({ ...formData, companyLogo: file }); // Store in state
+        setFormData({
+            ...formData,
+            logo: e.target.files[0], // Store uploaded file
+        });
     };
 
     // Function to handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent page refresh
-        setUploading(true);
+        e.preventDefault(); // Prevents page refresh
+        console.log('Job Posted:', formData);
 
-        // Create a FormData object (for file uploads)
-        const jobData = new FormData();
-        Object.entries(formData).forEach(([key, value]) => {
-            jobData.append(key, value);
+        // Reset the form, including clearing file input
+        setFormData({
+            title: '',
+            company: '',
+            location: '',
+            jobType: '',
+            salary: '',
+            description: '',
+            requirements: '',
+            applyLink: '',
+            logo: null,
         });
 
-        // Send data to the backend
-        fetch('http://localhost:5000/api/jobs', {
-            method: 'POST',
-            body: jobData, // FormData object (allows file upload)
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setUploading(false);
-                console.log('Job Posted:', data);
-                alert('Job posted successfully!'); // Success feedback
-                setFormData({
-                    title: '',
-                    company: '',
-                    location: '',
-                    jobType: '',
-                    salary: '',
-                    description: '',
-                    requirements: '',
-                    applyLink: '',
-                    companyLogo: null,
-                }); // Reset form
-            })
-            .catch((error) => {
-                setUploading(false);
-                console.error('Error posting job:', error);
-                alert('Error posting job. Please try again.');
-            });
+        // Reset file input manually
+        document.getElementById('logoUpload').value = null;
     };
 
     return (
@@ -99,16 +91,21 @@ const PostJobs = () => {
                         required
                     />
 
-                    {/* Location */}
-                    <input
-                        type="text"
+                    {/* Location Dropdown (Fetched from API) */}
+                    <select
                         name="location"
-                        placeholder="Location"
                         value={formData.location}
                         onChange={handleChange}
                         className="w-full p-3 rounded-md text-black"
                         required
-                    />
+                    >
+                        <option value="">Select Location</option>
+                        {states.map((state) => (
+                            <option key={state.id} value={state.name}>
+                                {state.name}
+                            </option>
+                        ))}
+                    </select>
 
                     {/* Job Type */}
                     <select
@@ -124,15 +121,15 @@ const PostJobs = () => {
                         <option value="Contract">Contract</option>
                     </select>
 
-                    {/* Salary */}
+                    {/* Salary Range (Optional, Numbers Only) */}
                     <input
-                        type="text"
+                        type="number"
                         name="salary"
-                        placeholder="Salary Range (e.g. $50k - $80k)"
+                        placeholder="Salary Range (e.g. 50000)"
                         value={formData.salary}
                         onChange={handleChange}
                         className="w-full p-3 rounded-md text-black"
-                        required
+                        min="0"
                     />
 
                     {/* Job Description */}
@@ -157,33 +154,31 @@ const PostJobs = () => {
                         required
                     ></textarea>
 
-                    {/* Application Link */}
+                    {/* Application Link (Optional) */}
                     <input
                         type="text"
                         name="applyLink"
-                        placeholder="Application Link"
+                        placeholder="Application Link (Optional)"
                         value={formData.applyLink}
                         onChange={handleChange}
                         className="w-full p-3 rounded-md text-black"
-                        required
                     />
 
-                    {/* Company Logo Upload */}
+                    {/* Upload Company Logo */}
                     <input
+                        id="logoUpload"
                         type="file"
-                        name="companyLogo"
                         accept="image/*"
                         onChange={handleFileChange}
-                        className="w-full p-3 rounded-md text-black bg-white"
+                        className="w-full p-3 rounded-md text-white bg-gray-800"
                     />
 
                     {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full p-3 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded-md"
-                        disabled={uploading}
                     >
-                        {uploading ? 'Uploading...' : 'Post Job'}
+                        Post Job
                     </button>
                 </form>
             </div>
