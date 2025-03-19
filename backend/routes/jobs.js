@@ -5,12 +5,11 @@ const multer = require('multer');
 const path = require('path');
 
 // >>>>>>>>>>>>>>>>>>>>>>>> FILE UPLOAD SETUP <<<<<<<<<<<<<<<<<<<<<<<<<<< //
-// Using `multer` to handle company logo uploads
-
+// Multer configuration for handling company logo uploads
 const storage = multer.diskStorage({
-    destination: './uploads/', // Save files to the uploads folder
+    destination: './uploads/', // Save files to the "uploads" folder
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Unique file name
+        cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
     },
 });
 
@@ -53,6 +52,7 @@ router.post('/', upload.single('companyLogo'), (req, res) => {
         company,
         recruiter_id,
         is_open,
+        salary, // New optional salary field
     } = req.body;
 
     const companyLogo = req.file ? `/uploads/${req.file.filename}` : null; // Store uploaded logo path
@@ -66,11 +66,15 @@ router.post('/', upload.single('companyLogo'), (req, res) => {
         !company ||
         !recruiter_id
     ) {
-        return res.status(400).json({ error: 'All fields are required' });
+        return res
+            .status(400)
+            .json({ error: 'All required fields must be filled.' });
     }
 
     pool.query(
-        'INSERT INTO jobs (title, description, requirements, location, company, recruiter_id, is_open, company_logo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+        `INSERT INTO jobs 
+         (title, description, requirements, location, company, recruiter_id, is_open, company_logo, salary) 
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
         [
             title,
             description,
@@ -78,8 +82,9 @@ router.post('/', upload.single('companyLogo'), (req, res) => {
             location,
             company,
             recruiter_id,
-            is_open || true,
+            is_open !== undefined ? is_open : true, // Ensure boolean handling
             companyLogo,
+            salary || null, // Allow salary to be optional
         ]
     )
         .then((result) => res.status(201).json(result.rows[0])) // Send back created job
@@ -112,7 +117,8 @@ router.delete('/:id', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>> PUT /api/jobs/:id - Update a job listing <<<<<<<<<<<<<<<<<<<< //
 router.put('/:id', (req, res) => {
     const jobId = req.params.id; // Get job ID from request
-    const { title, description, requirements, location, is_open } = req.body; // Get updated fields
+    const { title, description, requirements, location, is_open, salary } =
+        req.body; // Get updated fields
 
     // Check if at least one field is provided
     if (
@@ -120,7 +126,8 @@ router.put('/:id', (req, res) => {
         !description &&
         !requirements &&
         !location &&
-        is_open === undefined
+        is_open === undefined &&
+        !salary
     ) {
         return res
             .status(400)
@@ -129,8 +136,16 @@ router.put('/:id', (req, res) => {
 
     // Update job in database
     pool.query(
-        'UPDATE jobs SET title = $1, description = $2, requirements = $3, location = $4, is_open = $5 WHERE id = $6 RETURNING *',
-        [title, description, requirements, location, is_open, jobId]
+        `UPDATE jobs 
+         SET title = COALESCE($1, title), 
+             description = COALESCE($2, description), 
+             requirements = COALESCE($3, requirements), 
+             location = COALESCE($4, location), 
+             is_open = COALESCE($5, is_open), 
+             salary = COALESCE($6, salary)
+         WHERE id = $7 
+         RETURNING *`,
+        [title, description, requirements, location, is_open, salary, jobId]
     )
         .then((result) => {
             if (result.rows.length === 0) {

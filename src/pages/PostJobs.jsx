@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const PostJobs = () => {
     // State for form fields
@@ -14,17 +15,21 @@ const PostJobs = () => {
         logo: null, // File input for company logo
     });
 
-    const [states, setStates] = useState([]); // Store states from API
+    // State for states dropdown (fetched from API)
+    const [states, setStates] = useState([]);
 
-    // Fetch states from API
+    // State for success/error messages
+    const [message, setMessage] = useState('');
+
+    // Fetch states for location dropdown
     useEffect(() => {
-        fetch('http://localhost:5000/api/states') // Adjust API endpoint if needed
-            .then((response) => response.json())
-            .then((data) => setStates(data)) // Store states in state
+        axios
+            .get('http://localhost:5000/api/states')
+            .then((response) => setStates(response.data))
             .catch((error) => console.error('Error fetching states:', error));
     }, []);
 
-    // Function to handle text input changes
+    // Handle text input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -32,7 +37,7 @@ const PostJobs = () => {
         });
     };
 
-    // Function to handle file input change
+    // Handle file input change
     const handleFileChange = (e) => {
         setFormData({
             ...formData,
@@ -40,12 +45,42 @@ const PostJobs = () => {
         });
     };
 
-    // Function to handle form submission
+    // Handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevents page refresh
-        console.log('Job Posted:', formData);
+        e.preventDefault();
+        setMessage(''); // Clear any previous messages
 
-        // Reset the form, including clearing file input
+        // Create FormData for file upload
+        const jobData = new FormData();
+        jobData.append('title', formData.title);
+        jobData.append('company', formData.company);
+        jobData.append('location', formData.location);
+        jobData.append('jobType', formData.jobType);
+        jobData.append('salary', formData.salary || ''); // Allow empty salary
+        jobData.append('description', formData.description);
+        jobData.append('requirements', formData.requirements);
+        jobData.append('applyLink', formData.applyLink || ''); // Allow empty link
+        jobData.append('recruiter_id', 1); // Temporary ID (Replace with auth logic)
+        if (formData.logo) jobData.append('companyLogo', formData.logo); // Attach file
+
+        // Send data to backend
+        axios
+            .post('http://localhost:5000/api/jobs', jobData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            })
+            .then((response) => {
+                console.log('Job Posted:', response.data);
+                setMessage('✅ Job posted successfully!');
+                resetForm();
+            })
+            .catch((error) => {
+                console.error('Error posting job:', error);
+                setMessage('❌ Failed to post job. Try again.');
+            });
+    };
+
+    // Reset form fields
+    const resetForm = () => {
         setFormData({
             title: '',
             company: '',
@@ -57,17 +92,17 @@ const PostJobs = () => {
             applyLink: '',
             logo: null,
         });
-
-        // Reset file input manually
-        document.getElementById('logoUpload').value = null;
+        document.getElementById('logoUpload').value = null; // Clear file input
     };
 
     return (
         <div className="min-h-screen bg-[#04091A] text-white flex justify-center p-6">
             <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-3xl">
-                <h1 className="text-3xl font-bold text-center mb-6">
+                <h1 className="text-3xl font-bold text-center mb-4">
                     Post a Job
                 </h1>
+                {message && <p className="text-center mb-4">{message}</p>}{' '}
+                {/* Show success/error message */}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Job Title */}
                     <input
@@ -121,7 +156,7 @@ const PostJobs = () => {
                         <option value="Contract">Contract</option>
                     </select>
 
-                    {/* Salary Range (Optional, Numbers Only) */}
+                    {/* Salary (Optional) */}
                     <input
                         type="number"
                         name="salary"
@@ -143,7 +178,7 @@ const PostJobs = () => {
                         required
                     ></textarea>
 
-                    {/* Requirements */}
+                    {/* Job Requirements */}
                     <textarea
                         name="requirements"
                         placeholder="Job Requirements"
