@@ -53,7 +53,7 @@ const PostJobs = () => {
         // Create FormData for file upload
         const jobData = new FormData();
         jobData.append('title', formData.title);
-        jobData.append('company', formData.company);
+        jobData.append('company_id', 1);
         jobData.append('location', formData.location);
         jobData.append('jobType', formData.jobType);
         jobData.append('salary', formData.salary || ''); // Allow empty salary
@@ -70,12 +70,12 @@ const PostJobs = () => {
             })
             .then((response) => {
                 console.log('Job Posted:', response.data);
-                setMessage('✅ Job posted successfully!');
+                setMessage('Job posted successfully!');
                 resetForm();
             })
             .catch((error) => {
                 console.error('Error posting job:', error);
-                setMessage('❌ Failed to post job. Try again.');
+                setMessage('Failed to post job. Try again.');
             });
     };
 
