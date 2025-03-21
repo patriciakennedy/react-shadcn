@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import companies from '../data/companies.json';
 import { motion } from 'framer-motion';
+import JobsHiringNow from '../components/JobsHiringNow';
 
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from '../components/ui/carousel';
+
 
 const LandingPage = () => {
     const text = 'Find Your Dream Job'.split('');
@@ -71,7 +73,9 @@ const LandingPage = () => {
                     ))}
                 </CarouselContent>
             </Carousel>
-            {/* banner */}
+
+            {/* Jobs Hiring Now */}
+            <JobsHiringNow />
 
             <section>{/* cards */}</section>
 
