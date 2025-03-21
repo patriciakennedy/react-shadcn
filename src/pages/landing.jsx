@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import HowItWorks from '../components/HowItWorks';
 import CompaniesCarousel from '../components/companiesCarousel';
-import ShowcaseSections from '../components/ShowcaseSections';
-import JobsHiringNow from '../components/JobsHiringNow';
+// import ShowcaseSections from '../components/ShowcaseSections';
+// import JobsHiringNow from '../components/JobsHiringNow';
+import HiringStartsHere from '../components/HiringStartsHere';
+// import ScrollZoomSection from '../components/ScrollZoomSection';
 
 const HeroSection = () => {
     return (
@@ -78,7 +80,10 @@ const HeroSection = () => {
             {/* <ShowcaseSections /> */}
             <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2">
                 <HowItWorks />
-                <JobsHiringNow />
+                {/* <JobsHiringNow /> */}
+                <HiringStartsHere />
+                {/* Other sections or hero content */}
+                {/* <ScrollZoomSection /> */}
             </div>
         </>
     );
