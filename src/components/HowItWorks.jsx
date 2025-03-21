@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const HowItWorks = () => {
     return (
         <section
-            className="relative w-full h-[80vh] bg-cover bg-center bg-no-repeat"
+            className="relative w-full h-[90vh] bg-cover bg-center bg-no-repeat"
             style={{
                 /* Replace the path below with your actual image path */
-                backgroundImage: "url('../public/banner.jpeg')",
+                backgroundImage: "url('../public/devs.jpg')",
             }}
         >
             {/* Dark overlay to improve text visibility on bright images */}

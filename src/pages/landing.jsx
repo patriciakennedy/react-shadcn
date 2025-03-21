@@ -1,41 +1,63 @@
-import { Button } from '../components/ui/button';
-import { Link } from 'react-router-dom';
-// import Autoplay from 'embla-carousel-autoplay';
-// import companies from '../data/companies.json';
+import React from 'react';
 import { motion } from 'framer-motion';
-
-// import {
-//     Carousel,
-//     CarouselContent,
-//     CarouselItem,
-// } from '../components/ui/carousel';
+import { Link } from 'react-router-dom';
+import { Button } from '../components/ui/button';
 import HowItWorks from '../components/HowItWorks';
+import CompaniesCarousel from '../components/companiesCarousel';
+import ShowcaseSections from '../components/ShowcaseSections';
+import JobsHiringNow from '../components/JobsHiringNow';
 
-const LandingPage = () => {
+const HeroSection = () => {
     return (
-        // Remove container or max-w classes
         <>
-            <main className="px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
-                <section className="text-center mb-12 sm:mb-20">
-                    <motion.h1
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, ease: 'easeOut' }}
-                        className="gradient-title font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tighter py-4"
-                    >
-                        Unlock Your Next
-                        <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-                            Big Opportunity
-                        </span>
-                    </motion.h1>
-                    <p className="text-gray-700 sm:mt-4 text-sm sm:text-xl">
-                        Browse top jobs or hire top talent to propel your career
-                        or company forward.
-                    </p>
-                </section>
+            <section
+                className="
+        flex 
+        flex-col 
+        items-center 
+        justify-center 
+        text-center 
+        w-full
+        min-h-[90vh]   
+        bg-[#04091A]   
+        px-6
+        sm:px-6 
+        lg:px-8
+        py-16
+        sm:py-32
+      "
+            >
+                {/* Animated Title */}
+                <motion.h1
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, ease: 'easeOut' }}
+                    className="
+          gradient-title 
+          font-extrabold 
+          text-5xl 
+          sm:text-7xl 
+          lg:text-8xl 
+          tracking-tighter 
+          py-4
+          text-white
+        "
+                >
+                    Unlock Your Next
+                    <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+                        Big Opportunity
+                    </span>
+                </motion.h1>
 
-                <div className="flex gap-6 justify-center mb-12">
+                {/* Subheading / Tagline */}
+                <p className="text-gray-300 sm:mt-4 text-sm sm:text-xl mb-8">
+                    Browse top jobs or hire top talent to propel your career or
+                    company forward.
+                </p>
+
+                {/* Call-to-Action Buttons */}
+                <div className="flex gap-6 mt-10">
                     <Link to="/JobListing">
                         <Button variant="gradient" size="xl">
                             Find Jobs
@@ -47,16 +69,19 @@ const LandingPage = () => {
                         </Button>
                     </Link>
                 </div>
-                {/* //////////////////////////////////////////////////////////////Carousel Starts Here */}
-              
-                {/* //////////////////////////////////////////////////////////////Carousel Ends Here */}
-               
-            </main>
-            
-            <HowItWorks />
-            
+            </section>
+            {/* <CompaniesCarousel /> */}
+            <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2">
+                <CompaniesCarousel />
+            </div>
+            {/* <HowItWorks /> */}
+            {/* <ShowcaseSections /> */}
+            <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2">
+                <HowItWorks />
+                <JobsHiringNow />
+            </div>
         </>
     );
 };
 
-export default LandingPage;
+export default HeroSection;
