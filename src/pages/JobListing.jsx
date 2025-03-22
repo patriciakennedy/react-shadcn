@@ -45,7 +45,13 @@ const JobListing = () => {
     return (
         <div className="min-h-screen bg-[#04091A] text-white p-6">
             {/* Page Title */}
-            <h1 className="text-4xl font-bold text-center mb-6">Latest Jobs</h1>
+            <h1 className="text-4xl font-bold text-center mb-4">Latest Jobs</h1>
+
+            {/* Results Count */}
+            <p className="text-center text-gray-400 mb-6">
+                {filteredJobs.length} job{filteredJobs.length !== 1 && 's'}{' '}
+                found
+            </p>
 
             {/* Search & Filters Section */}
             <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center">
@@ -55,14 +61,14 @@ const JobListing = () => {
                     placeholder="Search jobs by title..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="p-3 rounded-md text-black w-full sm:w-1/3"
+                    className="p-3 rounded-md text-black w-full sm:w-1/3 bg-gray-200"
                 />
 
                 {/* Location Dropdown (Fetched from API) */}
                 <select
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="p-3 rounded-md text-black w-full sm:w-1/4"
+                    className="p-3 rounded-md text-black w-full sm:w-1/4 bg-gray-200"
                 >
                     <option value="">Filter by Location</option>
                     {states.map((state) => (
@@ -72,11 +78,11 @@ const JobListing = () => {
                     ))}
                 </select>
 
-                {/* Company Dropdown (Static for now, will fetch from API later) */}
+                {/* Company Dropdown (Static for now) */}
                 <select
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="p-3 rounded-md text-black w-full sm:w-1/4"
+                    className="p-3 rounded-md text-black w-full sm:w-1/4 bg-gray-200"
                 >
                     <option value="">Filter by Company</option>
                     <option value="Company A">Company A</option>
