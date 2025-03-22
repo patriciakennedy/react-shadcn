@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import Resources from './pages/Resources';
 import GetStarted from './pages/GetStarted';
 import LoginForm from './pages/LoginForm';
+import ViewJobDetails from './pages/ViewJobDetails';
 
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
@@ -34,10 +35,10 @@ const router = createBrowserRouter([
                 path: '/JobListing',
                 element: <JobListing />,
             },
-            {
-                path: '/JobPage/:id',
-                element: <JobPage />,
-            },
+            // {
+            //     path: '/JobPage/:id',
+            //     element: <JobPage />,
+            // },
             {
                 path: '/MyJobobs',
                 element: <MyJobs />,
@@ -70,7 +71,11 @@ const router = createBrowserRouter([
                 path: '/login',
                 element: <LoginForm />,
             },
-           
+            // New route for viewing job details
+            {
+                path: '/job/:id',
+                element: <ViewJobDetails />,
+            },
         ],
     },
 ]);
