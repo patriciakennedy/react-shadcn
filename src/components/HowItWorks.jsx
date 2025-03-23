@@ -7,7 +7,8 @@ const HowItWorks = () => {
             className="relative w-full h-[90vh] bg-cover bg-center bg-no-repeat"
             style={{
                 /* Replace the path below with your actual image path */
-                backgroundImage: "url('../public/devs.jpg')",
+                // backgroundImage: "url('../public/devs.jpg')",
+                backgroundImage: "url('/devs.jpg')",
             }}
         >
             {/* Dark overlay to improve text visibility on bright images */}

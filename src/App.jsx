@@ -16,6 +16,8 @@ import Resources from './pages/Resources';
 import GetStarted from './pages/GetStarted';
 import LoginForm from './pages/LoginForm';
 import ViewJobDetails from './pages/ViewJobDetails';
+import RecruiterDashboard from './pages/RecruiterDashboard';
+import RecruiterJobDetails from './components/RecruiterJobDetails';
 
 // Create the router that will be used to setup our project routes
 const router = createBrowserRouter([
@@ -40,7 +42,7 @@ const router = createBrowserRouter([
             //     element: <JobPage />,
             // },
             {
-                path: '/MyJobobs',
+                path: '/MyJobs',
                 element: <MyJobs />,
             },
             {
@@ -75,6 +77,14 @@ const router = createBrowserRouter([
             {
                 path: '/job/:id',
                 element: <ViewJobDetails />,
+            },
+            {
+                path: '/recruiter-dashboard',
+                element: <RecruiterDashboard />,
+            },
+            {
+                path: '/recruiter/job/:id',
+                element: <RecruiterJobDetails />,
             },
         ],
     },
