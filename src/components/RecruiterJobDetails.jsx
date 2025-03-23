@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const RecruiterJobDetails = () => {
-    // Dummy data for visual design (no backend calls).
-    const [job] = useState({
+    // Dummy job data for visual design (no backend calls)
+    const [job, setJob] = useState({
         id: 1,
         title: 'Senior Backend Engineer',
         company: 'DevHire Inc.',
-        companyLogo: '', // or a URL string if you want to test an image
+        companyLogo: '',
         location: 'Remote',
         description:
             'This is a sample job description tailored for a Recruiter context. It outlines the main responsibilities and tasks for the role, along with key objectives and goals.',
@@ -15,7 +15,35 @@ const RecruiterJobDetails = () => {
             '• 5+ years of experience in Node.js\n• Proficiency with Express\n• Excellent communication skills\n• Ability to mentor junior developers',
     });
 
-    // For design only, we won't actually delete or edit anything.
+    // State to toggle the edit drawer
+    const [isEditing, setIsEditing] = useState(false);
+    // State to hold editable form data, initialized with job details
+    const [editData, setEditData] = useState({ ...job });
+
+    // Toggle edit drawer visibility
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    // Update editData state when form fields change
+    const handleInputChange = (e) => {
+        setEditData({ ...editData, [e.target.name]: e.target.value });
+    };
+
+    // Simulate saving the changes by updating the job state
+    const handleSave = () => {
+        setJob(editData);
+        setIsEditing(false);
+        alert('Job updated successfully! (For design only)');
+    };
+
+    // Cancel editing and close the drawer without saving changes
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditData({ ...job });
+    };
+
+    // For design purposes, the delete operation simply alerts the user.
     const handleDelete = () => {
         alert('Delete Job clicked! (For design only)');
     };
@@ -71,11 +99,8 @@ const RecruiterJobDetails = () => {
 
                 {/* Recruiter Management Actions */}
                 <div className="flex gap-4 mb-6">
-                    {/* For design only, no actual edit page */}
                     <button
-                        onClick={() =>
-                            alert('Edit Job clicked! (For design only)')
-                        }
+                        onClick={handleEditClick}
                         className="bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
                     >
                         Edit Job
@@ -95,6 +120,65 @@ const RecruiterJobDetails = () => {
                 >
                     Back to Dashboard
                 </Link>
+
+                {/* EDIT DRAWER */}
+                {isEditing && (
+                    <div className="mt-8 bg-gray-800 p-6 rounded-lg">
+                        <h2 className="text-2xl font-bold mb-4">Edit Job</h2>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Title
+                                </label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={editData.title}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 rounded bg-gray-700 text-white"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Description
+                                </label>
+                                <textarea
+                                    name="description"
+                                    value={editData.description}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="w-full p-3 rounded bg-gray-700 text-white"
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Requirements
+                                </label>
+                                <textarea
+                                    name="requirements"
+                                    value={editData.requirements}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="w-full p-3 rounded bg-gray-700 text-white"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div className="mt-6 flex gap-4">
+                            <button
+                                onClick={handleSave}
+                                className="bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
+                            >
+                                Save Changes
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-500 transition"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
