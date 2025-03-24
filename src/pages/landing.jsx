@@ -9,6 +9,7 @@ import FAQ from '../components/Faq';
 // import NeedToHire from '../components/NeedToHire';
 import Footer from '../components/Footer';
 
+
 const HeroSection = () => {
     return (
         <>
@@ -86,6 +87,7 @@ const HeroSection = () => {
                 {/* Other sections or hero content */}
                 {/* <ScrollZoomSection /> */}
                 {/* <NeedToHire /> */}
+               
                 <HiringStartsHere />
                 <Footer />
             </div>
